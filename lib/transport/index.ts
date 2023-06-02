@@ -32,7 +32,9 @@ export class Transport {
     } else {
       this.console.error(`Plugin ${pluginPath} not found`);
     }
-    this.console.info(`[${type.toUpperCase()}]: API on port ${this.port}`);
+    this.console.info(
+      `[${type.toUpperCase()}]: Started on http://127.0.0.1:${this.port}`,
+    );
   }
 
   getHandler(namespace: string, method: string) {
@@ -48,7 +50,7 @@ export class Transport {
     // @ts-ignore
     const params = JSON.stringify(...args);
     this.console.log(
-      `[${this.type.toUpperCase()}] ${address} ${namespace}.${method}(${params})`,
+      `[${this.type.toUpperCase()}]: ${address} ${namespace}.${method}(${params})`,
     );
   }
 
@@ -62,7 +64,7 @@ export class Transport {
     // @ts-ignore
     const params = JSON.stringify(...args);
     this.console.error(
-      `[${this.type.toUpperCase()}] ${address} ${namespace}.${method}(${params})`,
+      `[${this.type.toUpperCase()}]: ${address} ${namespace}.${method}(${params})`,
       error,
     );
   }

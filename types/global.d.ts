@@ -15,6 +15,10 @@ declare global {
     host?: string;
     port: number;
   };
+  type IConfigExplorer = {
+    port?: number;
+    base?: string;
+  };
   type IConfigNetwork = Partial<
     Record<ITransportType, { port: number; pluginPath?: string }>
   >;
@@ -31,6 +35,7 @@ declare global {
   type IConfig = {
     PATH?: Record<IStructureType, IStructureType | string>;
     static?: IConfigStatic;
+    explorer?: IConfigExplorer | false;
     network?: IConfigNetwork;
     runOptions?: ScriptOptions & RunningScriptOptions;
   };

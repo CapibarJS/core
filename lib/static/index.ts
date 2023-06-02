@@ -36,6 +36,7 @@ export const StaticServer = (root: string, context: IContext) => {
       const filePath = path.join(root, url);
       try {
         const data = await fs.readFile(filePath);
+        console.log(data);
         const fileExt = path.extname(filePath).substring(1);
         const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
         res.writeHead(200, { ...HEADERS, 'Content-Type': mimeType });
@@ -47,5 +48,5 @@ export const StaticServer = (root: string, context: IContext) => {
     })
     .listen(port);
 
-  console.info(`Static on port ${port}`);
+  console.info(`[Static]: Started on http://127.0.0.1:${port}`);
 };
