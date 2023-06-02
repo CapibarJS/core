@@ -6,6 +6,7 @@ import { Logger } from './logger';
 import defines from './common/defines';
 import { Transport } from './transport';
 import { StaticServer } from './static';
+import { ViteServer } from './static/vite';
 
 type IServerOptions = {
   rootDir?: string;
@@ -15,17 +16,20 @@ type IServerOptions = {
 export class Server {
   app: Application;
   staticDir: string;
+  private readonly explorerDir: string;
 
   constructor(options: IServerOptions = {}) {
-    // Переделать на Schema
     options.rootDir = options?.rootDir ?? 'app';
     const { rootDir, ...context } = options;
-    if (!context?.config?.network) {
-      if (!context?.config) context.config = {};
-      if (!context.config.network) context.config.network = {};
-      context.config.network.http = { port: 3000 };
-    }
+    if (!context?.config) context.config = {};
+    if (!context.config.explorer && context.config.explorer !== false)
+      context.config.explorer = { port: 3000, base: 'api' };
+    if (!context.config.network)
+      context.config.network = { http: { port: 3000 } };
+
     this.staticDir = join(rootDir, './static');
+    this.explorerDir = join(require.resolve('@capibar/explorer'), '../dist');
+
     this.app = new Application(
       {
         db: db(config),
@@ -40,6 +44,7 @@ export class Server {
   async start() {
     await this.app.init();
     Transport.createFactory(this.app);
-    StaticServer(this.staticDir, this.app.getContext());
+    StaticServer(this.explorerDir, this.app.getContext());
+    await ViteServer(this.explorerDir, this.app.getContext());
   }
 }

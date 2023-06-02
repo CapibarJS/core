@@ -1,6 +1,6 @@
 {
   "name": "@capibar/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "dist/index.js",
   "engines": {
@@ -35,8 +35,9 @@
   "homepage": "https://github.com/CapibarJS/core#readme",
   "dependencies": {
     "ws": "8.12.0",
+    "vite": "4.3.9",
     "@capibar/client": "0.0.4",
-    "@capibar/explorer": "0.0.2"
+    "@capibar/explorer": "0.0.6"
   },
   "devDependencies": {
     "@types/node": "16.18.25",
