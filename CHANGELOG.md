@@ -1,6 +1,13 @@
 # Changelog CapibarJS/Client.
 
 
+### 0.1.3 (2023-06-04)
+
+
+### Chores
+
+* upgrade `@capibar/explorer` to `0.0.7` ([6223ba7](https://github.com/CapibarJS/core/commit/6223ba76f2e71d48fc68969f4f68deba80588689))
+
 ### 0.1.2 (2023-06-02)
 
 

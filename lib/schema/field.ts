@@ -158,7 +158,9 @@ export class SchemaField {
     try {
       return {
         name,
-        type: this.isNested ? '#ref' : options?.type,
+        type: this.isNested
+          ? '#ref'
+          : `${options?.type}${options?.isArray ? '[]' : ''}`,
         ref:
           this.isNested && this.options.schema
             ? this.options.schema.path
