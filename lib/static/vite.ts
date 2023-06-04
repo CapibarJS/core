@@ -16,6 +16,7 @@ export async function ViteServer(root, context: IContext) {
   const vite = await createViteServer({
     root,
     base,
+    logLevel: 'silent',
     server: { middlewareMode: true },
     appType: 'spa',
   });
