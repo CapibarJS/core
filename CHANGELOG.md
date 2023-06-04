@@ -1,6 +1,13 @@
 # Changelog CapibarJS/Client.
 
 
+### 0.1.2 (2023-06-02)
+
+
+### Features
+
+* **explorer:** Added the ability to launch `@capibar/explorer` for server instance ([7679e8c](https://github.com/CapibarJS/core/commit/7679e8c681dafa7b39c93cd13f8c3c58a3869d22))
+
 ### 0.1.1 (2023-05-31)
 
 
