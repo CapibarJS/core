@@ -9,6 +9,7 @@
     "sourceMap": true,
     "preserveWatchOutput": true,
     "allowJs": true,
+    "resolveJsonModule": true,
     "removeComments": true,
     "suppressExcessPropertyErrors": false,
     "suppressImplicitAnyIndexErrors": false

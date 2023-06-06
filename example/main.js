@@ -1,7 +1,13 @@
 const { Server } = require('../lib/server');
 const { defineApi, defineSchema } = require('../lib/common/defines');
+const packageJSON = require('../package.json');
 
 const server = new Server({
+  meta: {
+    name: packageJSON.name,
+    description: packageJSON.description,
+    version: packageJSON.version,
+  },
   rootDir: 'example',
   crud: {
     findMany: (entity) =>
@@ -23,9 +29,9 @@ const server = new Server({
       http: {
         port: 3001,
       },
-      // ws: {
-      //   port: 3002,
-      // },
+      ws: {
+        port: 3000,
+      },
     },
     runOptions: {
       displayErrors: true,

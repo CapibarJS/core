@@ -23,12 +23,16 @@ export class Server {
     const { rootDir, ...context } = options;
     if (!context?.config) context.config = {};
     if (!context.config.explorer && context.config.explorer !== false)
-      context.config.explorer = { port: 3000, base: 'api' };
+      context.config.explorer = { port: 8080, base: 'api' };
     if (!context.config.network)
       context.config.network = { http: { port: 3000 } };
 
     this.staticDir = join(rootDir, './static');
-    this.explorerDir = join(require.resolve('@capibar/explorer'), '../dist');
+    // this.explorerDir = join(require.resolve('@capibar/explorer'), '../dist');
+    this.explorerDir = join(
+      require.resolve('D:/Projects/CapibarJS/explorer'),
+      '../dist',
+    );
 
     this.app = new Application(
       {
@@ -45,6 +49,6 @@ export class Server {
     await this.app.init();
     Transport.createFactory(this.app);
     StaticServer(this.explorerDir, this.app.getContext());
-    await ViteServer(this.explorerDir, this.app.getContext());
+    await ViteServer(this.explorerDir, this.app.getContext(), this.app);
   }
 }

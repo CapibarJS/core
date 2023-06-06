@@ -2,8 +2,9 @@ import { createServer as createViteServer } from 'vite';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as http from 'http';
+import { Application } from '../application';
 
-export async function ViteServer(root, context: IContext) {
+export async function ViteServer(root, context: IContext, app: Application) {
   if (!context.config.explorer) return;
   const {
     console,
@@ -21,10 +22,11 @@ export async function ViteServer(root, context: IContext) {
     appType: 'spa',
   });
   const server = http.createServer(async (req, res) => {
+    const apiMeta = JSON.stringify(app.getApiMeta);
+    res.setHeader('Set-Cookie', `meta=${apiMeta}; Path=/`);
     try {
-      if (req.url === '/') {
+      if (req.url.endsWith('/')) {
         const indexFilePath = path.resolve(root, 'index.html');
-        console.log(indexFilePath);
         const indexHtml = await vite.transformIndexHtml(
           req.url,
           fs.readFileSync(indexFilePath, 'utf-8'),
@@ -35,7 +37,6 @@ export async function ViteServer(root, context: IContext) {
       }
 
       vite.middlewares(req, res, () => {
-        console.log(req.url);
         res.statusCode = 404;
         res.end('Not found');
       });

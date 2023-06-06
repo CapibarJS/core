@@ -22,6 +22,12 @@ declare global {
   type IConfigNetwork = Partial<
     Record<ITransportType, { port: number; pluginPath?: string }>
   >;
+  type IMeta = Partial<{
+    name: string;
+    description: string;
+    version: string;
+    [key: string]: any;
+  }>;
 
   type IContext = {
     console?: Partial<Console>;
@@ -30,6 +36,7 @@ declare global {
     config: IConfig;
     db?: IDatabase;
     crud?: ICrud;
+    meta?: IMeta;
   } & Partial<IDefines>;
 
   type IConfig = {
