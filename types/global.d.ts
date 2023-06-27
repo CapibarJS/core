@@ -15,13 +15,15 @@ declare global {
     host?: string;
     port: number;
   };
-  type IConfigExplorer = {
-    port?: number;
-    base?: string;
-  };
   type IConfigNetwork = Partial<
     Record<ITransportType, { port: number; pluginPath?: string }>
   >;
+  type IMeta = Partial<{
+    name: string;
+    description: string;
+    version: string;
+    [key: string]: any;
+  }>;
 
   type IContext = {
     console?: Partial<Console>;
@@ -30,12 +32,12 @@ declare global {
     config: IConfig;
     db?: IDatabase;
     crud?: ICrud;
+    meta?: IMeta;
   } & Partial<IDefines>;
 
   type IConfig = {
     PATH?: Record<IStructureType, IStructureType | string>;
     static?: IConfigStatic;
-    explorer?: IConfigExplorer | false;
     network?: IConfigNetwork;
     runOptions?: ScriptOptions & RunningScriptOptions;
   };
