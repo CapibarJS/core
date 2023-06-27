@@ -1,4 +1,4 @@
-import * as http from 'node:http';
+import { createServer, IncomingMessage, ServerResponse } from 'node:http';
 import * as path from 'node:path';
 import { promises as fs } from 'node:fs';
 
@@ -10,6 +10,8 @@ const MIME_TYPES = {
   png: 'image/png',
   ico: 'image/x-icon',
   svg: 'image/svg+xml',
+  ttf: 'font/ttf',
+  woff: 'font/woff',
 };
 
 const HEADERS = {
@@ -21,7 +23,18 @@ const HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-export const StaticServer = (root: string, context: IContext) => {
+type StaticServerBeforeEnd = (
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+  url: string,
+  data: Buffer,
+) => Promise<void> | void;
+
+export const StaticServer = (
+  root: string,
+  context: IContext,
+  beforeEnd?: StaticServerBeforeEnd,
+) => {
   if (!context.config.static) return;
   const {
     console,
@@ -30,23 +43,21 @@ export const StaticServer = (root: string, context: IContext) => {
     },
   } = context;
 
-  http
-    .createServer(async (req, res) => {
-      const url = req.url === '/' ? '/index.html' : req.url;
-      const filePath = path.join(root, url);
-      try {
-        const data = await fs.readFile(filePath);
-        console.log(data);
-        const fileExt = path.extname(filePath).substring(1);
-        const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
-        res.writeHead(200, { ...HEADERS, 'Content-Type': mimeType });
-        res.end(data);
-      } catch (err) {
-        res.statusCode = 404;
-        res.end('"File is not found"');
-      }
-    })
-    .listen(port);
+  createServer(async (req, res) => {
+    const url = req.url === '/' ? '/index.html' : req.url;
+    const filePath = path.join(root, url.split('?').shift());
+    try {
+      const data = await fs.readFile(filePath);
+      const fileExt = path.extname(filePath).substring(1);
+      const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
+      await beforeEnd(req, res, url, data);
+      res.writeHead(200, { ...HEADERS, 'Content-Type': mimeType });
+      res.end(data);
+    } catch (err) {
+      res.statusCode = 404;
+      res.end('"File is not found"');
+    }
+  }).listen(port);
 
   console.info(`[Static]: Started on http://127.0.0.1:${port}`);
 };

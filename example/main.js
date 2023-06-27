@@ -21,20 +21,16 @@ const server = new Server({
     delete: (entity) => async (args) => ({ args, entity }),
   },
   config: {
-    // explorer: false,
-    // static: {
-    //   port: 8080,
-    // },
+    static: {
+      port: 8080,
+    },
     network: {
       http: {
         port: 3001,
       },
       ws: {
-        port: 3000,
+        port: 3002,
       },
-    },
-    runOptions: {
-      displayErrors: true,
     },
   },
 });

@@ -35,9 +35,8 @@
   },
   "dependencies": {
     "ws": "8.12.0",
-    "vite": "4.3.9",
     "@capibar/client": "0.0.5",
-    "@capibar/explorer": "0.0.7"
+    "@capibar/explorer": "0.0.9"
   },
   "devDependencies": {
     "@types/node": "16.18.25",

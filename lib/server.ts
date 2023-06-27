@@ -6,7 +6,6 @@ import { Logger } from './logger';
 import defines from './common/defines';
 import { Transport } from './transport';
 import { StaticServer } from './static';
-import { ViteServer } from './static/vite';
 
 type IServerOptions = {
   rootDir?: string;
@@ -16,23 +15,15 @@ type IServerOptions = {
 export class Server {
   app: Application;
   staticDir: string;
-  private readonly explorerDir: string;
 
   constructor(options: IServerOptions = {}) {
     options.rootDir = options?.rootDir ?? 'app';
     const { rootDir, ...context } = options;
     if (!context?.config) context.config = {};
-    if (!context.config.explorer && context.config.explorer !== false)
-      context.config.explorer = { port: 8080, base: 'api' };
     if (!context.config.network)
       context.config.network = { http: { port: 3000 } };
 
-    this.staticDir = join(rootDir, './static');
-    // this.explorerDir = join(require.resolve('@capibar/explorer'), '../dist');
-    this.explorerDir = join(
-      require.resolve('D:/Projects/CapibarJS/explorer'),
-      '../dist',
-    );
+    this.staticDir = join(require.resolve('@capibar/explorer'), '../dist');
 
     this.app = new Application(
       {
@@ -48,7 +39,11 @@ export class Server {
   async start() {
     await this.app.init();
     Transport.createFactory(this.app);
-    StaticServer(this.explorerDir, this.app.getContext());
-    await ViteServer(this.explorerDir, this.app.getContext(), this.app);
+    StaticServer(this.staticDir, this.app.getContext(), (req, res) => {
+      res.setHeader(
+        'Set-Cookie',
+        `meta=${JSON.stringify(this.app.getApiMeta)}; Path=/`,
+      );
+    });
   }
 }
