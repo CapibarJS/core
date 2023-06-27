@@ -2,6 +2,7 @@ import { Loader } from './loader';
 import { Modules } from './module';
 import { Schemas } from './schemas';
 import { Plugins } from './plugins';
+import { version } from '../../package.json';
 
 export class Application extends Loader {
   api: Modules;
@@ -65,5 +66,18 @@ export class Application extends Loader {
 
   getContext() {
     return this.context;
+  }
+
+  get config() {
+    return this.context.config;
+  }
+
+  get getApiMeta() {
+    const meta: Record<string, any> = {};
+    meta.clients = Object.keys(this.config.network).map((key) => {
+      const { port } = this.config.network[key];
+      return { name: key, port };
+    });
+    return { meta, ...this.context.meta, coreVersion: version };
   }
 }

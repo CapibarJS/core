@@ -1,7 +1,13 @@
 const { Server } = require('../lib/server');
 const { defineApi, defineSchema } = require('../lib/common/defines');
+const packageJSON = require('../package.json');
 
 const server = new Server({
+  meta: {
+    name: packageJSON.name,
+    description: packageJSON.description,
+    version: packageJSON.version,
+  },
   rootDir: 'example',
   crud: {
     findMany: (entity) =>
@@ -15,20 +21,16 @@ const server = new Server({
     delete: (entity) => async (args) => ({ args, entity }),
   },
   config: {
-    // explorer: false,
-    // static: {
-    //   port: 8080,
-    // },
+    static: {
+      port: 8080,
+    },
     network: {
       http: {
         port: 3001,
       },
-      // ws: {
-      //   port: 3002,
-      // },
-    },
-    runOptions: {
-      displayErrors: true,
+      ws: {
+        port: 3002,
+      },
     },
   },
 });

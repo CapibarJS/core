@@ -2,7 +2,17 @@
   "name": "@capibar/core",
   "version": "0.1.3",
   "description": "",
+  "author": "CapibarJS",
+  "license": "MIT",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CapibarJS/core.git"
+  },
+  "homepage": "https://github.com/CapibarJS/core#readme",
+  "bugs": {
+    "url": "https://github.com/CapibarJS/core/issues"
+  },
   "engines": {
     "node": ">=18"
   },
@@ -23,21 +33,10 @@
     "ext": "*",
     "exec": "yarn build && yarn start"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CapibarJS/core.git"
-  },
-  "author": "CapibarJS",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/CapibarJS/core/issues"
-  },
-  "homepage": "https://github.com/CapibarJS/core#readme",
   "dependencies": {
     "ws": "8.12.0",
-    "vite": "4.3.9",
-    "@capibar/client": "0.0.4",
-    "@capibar/explorer": "0.0.7"
+    "@capibar/client": "0.0.5",
+    "@capibar/explorer": "0.0.9"
   },
   "devDependencies": {
     "@types/node": "16.18.25",
