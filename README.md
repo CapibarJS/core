@@ -15,6 +15,7 @@ CapibarJS - это фреймворк для создания различных
 
 ---
 
+### Demo: http://chotko-reklama.ru:5500
 ### Example: https://github.com/CapibarJS/example
 
 ---
