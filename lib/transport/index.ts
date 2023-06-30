@@ -38,6 +38,11 @@ export class Transport {
   }
 
   getHandler(namespace: string, method: string) {
+    this.app.emitter.emit('transport:getHandler', {
+      transport: this,
+      namespace,
+      method,
+    });
     return this.app.getMethod(method, namespace);
   }
 
