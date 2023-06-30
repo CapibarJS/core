@@ -20,6 +20,7 @@ export class Schemas {
       this.schemas.push(build);
       Object.assign(schema, build);
     }
+    this.app.emitter.emit('schemas:initiated');
   }
 
   public setSchema(schema: Schema) {
