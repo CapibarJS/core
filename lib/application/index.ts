@@ -23,9 +23,10 @@ export class Application extends Loader {
   }
 
   async init() {
+    new Plugins(this, this.context);
     this.schemas = new Schemas(this, this.context);
     this.api = new Modules(this, this.context);
-    new Plugins(this, this.context);
+    this.emitter.emit('application:initiated');
   }
 
   getMethod(method: string, namespace?: string) {
