@@ -8,10 +8,14 @@ export class Modules {
   configs: VmConfig[] = [];
 
   constructor(protected app: Application, protected context: IContext) {
+    this.init();
+  }
+
+  protected init() {
     const files = this.app.filesByType('config', 'function');
     for (const file of files) {
       if (file.type === 'config') {
-        const vm = VmConfig.create(file.resolve, context);
+        const vm = VmConfig.create(file.resolve, this.context);
         this.configs.push(vm);
         const config = vm.build();
         const crud = this.generateCrudApi(config);
@@ -24,14 +28,14 @@ export class Modules {
           );
           this.procedures.push(procedure);
           objectSet(
-            context.api,
+            this.context.api,
             [vm.namespace, name].join('.'),
             procedure.getMethod(),
           );
         }
         continue;
       }
-      const vm = VmFunction.create(file.resolve, context);
+      const vm = VmFunction.create(file.resolve, this.context);
       {
         const configNamespace = file.fullName.split('.').slice(0, -1).join('.');
         if (this.configs.filter((x) => x.namespace !== configNamespace)) {
@@ -43,7 +47,7 @@ export class Modules {
         }
       }
       this.procedures.push(vm.procedure);
-      objectSet(context.api, file.fullName, vm.build());
+      objectSet(this.context.api, file.fullName, vm.build());
     }
   }
 
@@ -56,7 +60,12 @@ export class Modules {
     const operation = crudOperations
       .filter((x) => onlyOperations.includes(x))
       .filter((x) => !excludeOperations.includes(x));
-    const getOperation = (operation) => (entity) => crud?.[operation](entity);
+    const getOperation = (operation) => (entity) =>
+      crud?.[operation](entity, {
+        app: this.app,
+        operation,
+        crudConfig: config,
+      });
     operation.forEach((o) => generated.set(o, getOperation(o)));
     return generated;
   }

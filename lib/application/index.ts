@@ -3,10 +3,12 @@ import { Modules } from './module';
 import { Schemas } from './schemas';
 import { Plugins } from './plugins';
 import { version } from '../../package.json';
+import { EventEmitter } from '../events';
 
 export class Application extends Loader {
   api: Modules;
   schemas: Schemas;
+  emitter = new EventEmitter();
 
   constructor(protected context: IContext, protected root = 'app') {
     super(root);
