@@ -10,13 +10,11 @@ const server = new Server({
   },
   rootDir: 'example',
   crud: {
-    findMany: (entity, ctx) => {
-      console.log(entity, ctx);
-      return defineApi({
+    findMany: (entity) =>
+      defineApi({
         params: defineSchema({ limit: 'boolean[]' }),
         method: async (args) => ({ args, entity }),
-      });
-    },
+      }),
     findOne: (entity) => async (args) => ({ args, entity }),
     create: (entity) => async (args) => ({ args, entity }),
     update: (entity) => async (args) => ({ args, entity }),
