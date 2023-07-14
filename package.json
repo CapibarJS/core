@@ -1,10 +1,11 @@
 {
   "name": "@capibar/core",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "",
   "author": "CapibarJS",
   "license": "MIT",
   "main": "dist/index.js",
+  "typings": "types/global.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CapibarJS/core.git"
