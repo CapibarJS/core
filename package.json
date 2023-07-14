@@ -5,7 +5,7 @@
   "author": "CapibarJS",
   "license": "MIT",
   "main": "dist/index.js",
-  "typings": "types/index.ts",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CapibarJS/core.git"
