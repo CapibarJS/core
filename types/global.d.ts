@@ -43,6 +43,7 @@ declare global {
   };
 
   type ISchema = Schema;
+  const Schema: Schema;
 
   namespace api {}
   namespace db {}
