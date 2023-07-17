@@ -9,7 +9,10 @@ declare global {
 
   type ITransportType = 'http' | 'ws' | string;
 
-  export type IEventName = 'application:initiated' | 'schemas:initiated';
+  export type IEventName =
+    | 'application:initiated'
+    | 'schemas:initiated'
+    | 'transport:getHandler';
 
   type IDatabase = any;
   type ICrud = any;
