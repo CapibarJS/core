@@ -1,20 +1,20 @@
 type EventResolver = (...args) => void | Promise<void>;
 
 export class EventEmitter {
-  private events: Map<string, Set<EventResolver>> = new Map();
+  private events: Map<IEventName, Set<EventResolver>> = new Map();
   private limitListeners = 10;
 
   get countMaxListeners() {
     return this.limitListeners;
   }
 
-  listenerCount(name: string) {
+  listenerCount(name: IEventName) {
     const event = this.events.get(name);
     if (event) return event.size;
     return 0;
   }
 
-  on(name: string, fn: EventResolver) {
+  on(name: IEventName, fn: EventResolver) {
     const event = this.events.get(name);
     if (event) {
       event.add(fn);
@@ -29,7 +29,7 @@ export class EventEmitter {
     }
   }
 
-  once(name: string, fn: EventResolver) {
+  once(name: IEventName, fn: EventResolver) {
     const dispose = (...args) => {
       this.remove(name, dispose);
       return fn(...args);
@@ -37,7 +37,7 @@ export class EventEmitter {
     this.on(name, dispose);
   }
 
-  emit(name: string, ...args) {
+  emit(name: IEventName, ...args) {
     const event = this.events.get(name);
     if (!event) return;
     for (const fn of event.values()) {
@@ -45,13 +45,13 @@ export class EventEmitter {
     }
   }
 
-  remove(name, fn) {
+  remove(name: IEventName, fn) {
     const event = this.events.get(name);
     if (!event) return;
     event.delete(fn);
   }
 
-  clear(name: string) {
+  clear(name: IEventName) {
     if (!name) {
       this.events.clear();
       return;
@@ -59,7 +59,7 @@ export class EventEmitter {
     this.events.delete(name);
   }
 
-  static once(emitter: EventEmitter, name: string) {
+  static once(emitter: EventEmitter, name: IEventName) {
     return new Promise((resolve) => emitter.once(name, resolve));
   }
 }

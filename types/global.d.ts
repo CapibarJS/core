@@ -9,6 +9,8 @@ declare global {
 
   type ITransportType = 'http' | 'ws' | string;
 
+  export type IEventName = 'application:initiated' | 'schemas:initiated';
+
   type IDatabase = any;
   type ICrud = any;
   type IConfigStatic = {
