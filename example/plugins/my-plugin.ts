@@ -3,7 +3,7 @@ definePlugin({
     /**
      * Require package|module|common from files of application directory
      */
-    load('./common/module1/index.js').initModule();
+    console.log(load('./common/module1').initModule());
     /**
      * Require package from node_modules
      */
