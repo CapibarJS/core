@@ -3,11 +3,18 @@ import { RunningScriptOptions, ScriptOptions } from 'node:vm';
 import { Schema } from '../lib/schema';
 import { STRUCTURE_TYPES } from '../lib/application/loader';
 
+type LoadFunction = (path: string) => any;
+
 export {};
 declare global {
   export type IStructureType = (typeof STRUCTURE_TYPES)[number];
 
   type ITransportType = 'http' | 'ws' | string;
+
+  export type IEventName =
+    | 'application:initiated'
+    | 'schemas:initiated'
+    | 'transport:getHandler';
 
   type IDatabase = any;
   type ICrud = any;
@@ -33,6 +40,7 @@ declare global {
     db?: IDatabase;
     crud?: ICrud;
     meta?: IMeta;
+    load?: LoadFunction;
   } & Partial<IDefines>;
 
   type IConfig = {
@@ -49,6 +57,8 @@ declare global {
   namespace db {}
   namespace config {}
   namespace schemas {}
+
+  const load: LoadFunction;
 
   const defineSchema: typeof defines.defineSchema;
   const defineApi: typeof defines.defineApi;

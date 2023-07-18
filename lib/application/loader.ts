@@ -1,4 +1,4 @@
-import { basename } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 import * as fs from 'node:fs';
 import { VmType } from '../vm';
 
@@ -29,6 +29,12 @@ export class Loader {
     this.loadStructure();
   }
 
+  load(path: string) {
+    return path.startsWith('./')
+      ? require(resolve(join(this.root, path)))
+      : require(path);
+  }
+
   filesByType(...types: VmType[]) {
     return this.#files.filter((x) => [...types].includes(x.type));
   }
@@ -41,7 +47,7 @@ export class Loader {
       .map((filePath: string) => {
         // eslint-disable-next-line prefer-const
         let [type, ..._path] = filePath.split('/').slice(1);
-        if (!_path.length) {
+        if (!_path.length || type === 'common') {
           const file = type;
           if (!type.endsWith('.js')) return;
           const name = basename(file, '.js');
