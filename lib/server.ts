@@ -17,7 +17,7 @@ export class Server {
   staticDir: string;
 
   constructor(options: IServerOptions = {}) {
-    options.rootDir = options?.rootDir ?? 'app';
+    options.rootDir = join('dist', options?.rootDir ?? 'app');
     const { rootDir, ...context } = options;
     if (!context?.config) context.config = {};
     if (!context.config.network)
