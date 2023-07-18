@@ -3,16 +3,14 @@
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "outDir": "./dist",
     "declaration": true,
     "sourceMap": true,
     "preserveWatchOutput": true,
     "allowJs": true,
     "resolveJsonModule": true,
-    "removeComments": true,
-    "suppressExcessPropertyErrors": false,
-    "suppressImplicitAnyIndexErrors": false
+    "removeComments": true
   },
   "include": [
     "**/*"
