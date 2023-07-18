@@ -8,10 +8,11 @@ import { EventEmitter } from '../events';
 export class Application extends Loader {
   api: Modules;
   schemas: Schemas;
-  emitter = new EventEmitter();
+  emitter: EventEmitter;
 
   constructor(protected context: IContext, protected root = 'app') {
     super(root);
+    this.emitter = new EventEmitter(this);
     this.context.api = {};
     this.context.schemas = {};
     this.context.config.PATH = {
@@ -20,6 +21,7 @@ export class Application extends Loader {
       plugins: 'plugins',
       config: 'config',
     };
+    this.context.load = this.context?.load ?? this.load.bind(this);
   }
 
   async init() {

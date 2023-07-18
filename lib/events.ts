@@ -1,8 +1,12 @@
-type EventResolver = (...args) => void | Promise<void>;
+import { Application } from './application';
+
+type EventResolver = (payload?: any, app?: Application) => void | Promise<void>;
 
 export class EventEmitter {
   private events: Map<IEventName, Set<EventResolver>> = new Map();
   private limitListeners = 10;
+
+  constructor(protected app: Application) {}
 
   get countMaxListeners() {
     return this.limitListeners;
@@ -30,22 +34,22 @@ export class EventEmitter {
   }
 
   once(name: IEventName, fn: EventResolver) {
-    const dispose = (...args) => {
+    const dispose: EventResolver = (app, payload) => {
       this.remove(name, dispose);
-      return fn(...args);
+      return fn(app ?? this.app, payload);
     };
     this.on(name, dispose);
   }
 
-  emit(name: IEventName, ...args) {
+  emit(name: IEventName, payload?: any, app?: Application) {
     const event = this.events.get(name);
     if (!event) return;
     for (const fn of event.values()) {
-      fn(...args);
+      fn(app ?? this.app, payload);
     }
   }
 
-  remove(name: IEventName, fn) {
+  remove(name: IEventName, fn: EventResolver) {
     const event = this.events.get(name);
     if (!event) return;
     event.delete(fn);
