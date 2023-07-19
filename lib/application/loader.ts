@@ -91,7 +91,7 @@ export class Loader {
       if (item.isDirectory()) {
         files = [...files, ...this.readFiles(`${path}/${item.name}`)];
       } else if (item.name.endsWith('.js')) {
-        files.push(`${path}/${item.name}`);
+        files.push(`${path}/${item.name}`.split('\\').join('/'));
       }
     }
     return files;
