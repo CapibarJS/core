@@ -28,7 +28,12 @@ export class VmModule {
     };
     this.script = new vm.Script(code, vmScriptOptions);
     this.vmContext = vm.createContext(context);
-    this.exports = this.script.runInContext(this.vmContext, this.runOptions);
+    try {
+      this.exports = this.script.runInContext(this.vmContext, this.runOptions);
+    } catch (ex) {
+      context.console.error('[VmModule]', String(ex), `(${resolve})`);
+      throw ex;
+    }
     {
       const resolveArray = this.resolve.split('/');
       resolveArray.pop();
