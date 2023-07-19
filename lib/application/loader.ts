@@ -19,7 +19,7 @@ const TypeToVmType = (type: IStructureType | string) => {
     api: 'function',
     schemas: 'schema',
   };
-  return types[type];
+  return types[type] ?? `__${type}`;
 };
 
 export class Loader {
@@ -46,8 +46,9 @@ export class Loader {
     this.#files = files
       .map((filePath: string) => {
         // eslint-disable-next-line prefer-const
-        let [type, ..._path] = filePath.split('/').slice(1);
-        if (!_path.length || type === 'common') {
+        let [type, ..._path] = filePath.split('/').slice(2);
+        if (type === 'common') return;
+        if (!_path.length) {
           const file = type;
           if (!type.endsWith('.js')) return;
           const name = basename(file, '.js');

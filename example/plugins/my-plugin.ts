@@ -9,7 +9,7 @@ definePlugin({
      */
     load('ws');
 
-    emitter.on('schemas:initiated', ({ schemas }, payload) => {
+    emitter.on('schemas:initiated', (payload, app) => {
       console.info('my-plugin', 'schemas');
     });
     emitter.on('application:initiated', () => {
