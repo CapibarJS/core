@@ -37,7 +37,7 @@
   "dependencies": {
     "ws": "8.12.0",
     "@capibar/client": "0.0.5",
-    "@capibar/explorer": "0.0.9"
+    "@capibar/explorer": "0.0.10"
   },
   "devDependencies": {
     "@types/node": "16.18.25",
