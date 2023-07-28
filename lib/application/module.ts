@@ -79,6 +79,7 @@ export class Modules {
         name,
         namespace,
         meta: { name },
+        private: false,
       });
     } else {
       procedure = Procedure.createFrom(define, { name, namespace });

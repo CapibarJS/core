@@ -14,7 +14,8 @@ declare global {
   export type IEventName =
     | 'application:initiated'
     | 'schemas:initiated'
-    | 'transport:getHandler';
+    | 'transport:getHandler'
+    | 'http:get';
 
   type IDatabase = any;
   type ICrud = any;

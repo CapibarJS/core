@@ -18,6 +18,7 @@ export type IProcedureOptions = {
   schemaResponse?: Schema;
   name?: string;
   namespace?: string;
+  private?: boolean;
 
   meta?: IProcedureMeta;
 };
@@ -25,6 +26,7 @@ export type IProcedureOptions = {
 export class Procedure {
   name: string;
   namespace?: string;
+  private?: boolean;
 
   schemaRequest?: Schema;
   schemaResponse?: Schema;
@@ -40,6 +42,7 @@ export class Procedure {
     this.name = options?.name;
     this.namespace = options?.namespace;
     this.meta = options?.meta ?? {};
+    this.private = options?.private ?? false;
   }
 
   getMethod(): IProcedureMethod {
@@ -75,7 +78,7 @@ export class Procedure {
     exports: VmFunctionExports,
     options: CreateProcedureFromOptions = {},
   ) {
-    const { method, params, returns, Function } = exports;
+    const { method, params, returns, Function, private: isPrivate } = exports;
     const meta = Function ?? {};
     meta.name = meta?.name ?? options.name;
 
@@ -86,6 +89,7 @@ export class Procedure {
       schemaRequest,
       schemaResponse,
       meta,
+      private: isPrivate ?? true,
     });
   }
 }

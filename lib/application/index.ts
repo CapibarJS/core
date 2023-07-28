@@ -35,7 +35,8 @@ export class Application extends Loader {
     if (namespace === '_' && method === 'introspect')
       return (args) => this.introspect(args);
     const procedure = this.api.procedures.find(
-      (x) => x.namespace === namespace && x.name === method,
+      (x) =>
+        x.namespace === namespace && x.name === method && x.private === true,
     );
     if (!procedure)
       throw `"Handler ${method} not found in namespace ${namespace}"`;
