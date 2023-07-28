@@ -15,5 +15,11 @@ definePlugin({
     emitter.on('application:initiated', () => {
       console.info('my-plugin', 'initiated');
     });
+
+    emitter.on('http:get', async (app, { res, req }) => {
+      // @ts-ignore
+      console.log(api);
+      res.end(req.url);
+    });
   },
 });

@@ -12,7 +12,7 @@ export class Transport {
   console: IContext['console'];
   port: number;
 
-  constructor(type: ITransportType, protected app: Application) {
+  constructor(type: ITransportType, public app: Application) {
     const context = app.getContext();
     this.type = type;
     this.console = context.console;

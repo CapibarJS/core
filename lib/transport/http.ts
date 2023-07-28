@@ -27,12 +27,27 @@ export const HttpTransport = (transport: Transport) => {
   http
     .createServer(async (req, res) => {
       const { url, socket } = req;
+      const [place, ...pathParams] = url?.substring(1).split('/') ?? [];
       const ip = socket.remoteAddress;
       res.writeHead(200, HEADERS);
-      if (req.method !== 'POST') return res.end('"Not found"');
-      const [place] = url?.substring(1).split('/') ?? [];
+      try {
+        if (
+          req.method === 'GET' &&
+          transport.app.emitter.listenerCount('http:get')
+        )
+          return transport.app.emitter.emit('http:get', {
+            req,
+            res,
+            pathParams,
+          });
+      } catch {}
+      if (req.method !== 'POST') {
+        res.writeHead(404);
+        return res.end('"Not found"');
+      }
       if (place !== 'api') return res.end('"Not found"');
       const { args, name: namespace, method } = await receiveArgs(req);
+      args.push(pathParams);
       let handler;
       try {
         handler = transport.getHandler(namespace, method);

@@ -1,6 +1,6 @@
 import { Application } from './application';
 
-type EventResolver = (payload?: any, app?: Application) => void | Promise<void>;
+type EventResolver = (app?: Application, payload?: any) => void | Promise<void>;
 
 export class EventEmitter {
   private events: Map<IEventName, Set<EventResolver>> = new Map();

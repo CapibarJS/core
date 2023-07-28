@@ -7,6 +7,7 @@ export type VmFunctionExports = {
   params?: ISchemaDefine | string[] | any;
   returns?: ISchemaDefine | string[] | any;
   method: (...args) => Promise<any> | any;
+  private?: boolean;
 };
 
 export class VmFunction extends VmModule {
