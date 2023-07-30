@@ -1,9 +1,9 @@
 defineApi({
   private: false,
-
-  params: ['name:?string', 'value:?int'],
-  returns: ['name', 'status'],
-
+  Function: {
+    name: 'Island test',
+    description: 'Create new instance ship',
+  },
   method: async function (params) {
     console.log(
       schemas.Status.validate({

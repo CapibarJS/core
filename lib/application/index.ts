@@ -34,8 +34,8 @@ export class Application extends Loader {
   getMethod(method: string, namespace?: string) {
     if (namespace === '_' && method === 'introspect')
       return (args) => this.introspect(args);
-    const procedure = this.api.procedures.find(
-      (x) => x.namespace === namespace && x.name === method && !x.private,
+    const procedure = this.api.proceduresPublic.find(
+      (x) => x.namespace === namespace && x.name === method,
     );
     if (!procedure)
       throw `"Handler ${method} not found in namespace ${namespace}"`;
@@ -45,7 +45,15 @@ export class Application extends Loader {
   async introspect(options: any = {}) {
     const structure = {};
     const hiddenOptions = options?.typing !== true;
-    for (const procedure of this.api.procedures) {
+    // console.log(
+    //   this.api.procedures.map((x) => ({
+    //     path: x.namespace + '.' + x.name,
+    //     private: x.private,
+    //   })),
+    // );
+    for (const procedure of this.api.proceduresPublic.filter(
+      (x) => x.private !== true,
+    )) {
       const key = [procedure.namespace, procedure.name].join('.');
       if (hiddenOptions) {
         structure[key] = {};
@@ -57,7 +65,7 @@ export class Application extends Loader {
       structure['#api'] = {};
       for (const config of this.api.configs) {
         structure['#api'][config.namespace] = {
-          meta: config.exports.meta,
+          meta: config.exports.meta ?? {},
         };
       }
       structure['#schemas'] = {};

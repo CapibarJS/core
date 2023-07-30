@@ -28,9 +28,9 @@ const server = new Server({
       http: {
         port: 3001,
       },
-      ws: {
-        port: 3002,
-      },
+      // ws: {
+      //   port: 3002,
+      // },
     },
   },
 });
