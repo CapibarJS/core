@@ -42,7 +42,7 @@ export class Procedure {
     this.name = options?.name;
     this.namespace = options?.namespace;
     this.meta = options?.meta ?? {};
-    this.private = options?.private ?? false;
+    this.private = options?.private;
   }
 
   getMethod(): IProcedureMethod {
@@ -89,7 +89,7 @@ export class Procedure {
       schemaRequest,
       schemaResponse,
       meta,
-      private: isPrivate ?? true,
+      private: isPrivate,
     });
   }
 }

@@ -1,6 +1,8 @@
 import { VmModule } from '../module';
 
 export type VmConfigExports = {
+  private?: boolean;
+
   meta?: {
     name?: string;
     description?: string;

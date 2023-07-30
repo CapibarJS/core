@@ -40,7 +40,9 @@ export const HttpTransport = (transport: Transport) => {
             res,
             pathParams,
           });
-      } catch {}
+      } catch {
+        return res.end('"Not found"');
+      }
       if (req.method !== 'POST') return res.end('"Not found"');
       if (place !== 'api') return res.end('"Not found"');
       const { args, name: namespace, method } = await receiveArgs(req);
