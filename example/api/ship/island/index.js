@@ -5,6 +5,6 @@ defineConfig({
   },
   Entity: {},
   crud: {
-    exclude: ['update', 'delete', 'create'],
+    exclude: ['update', 'delete'],
   },
 });
